@@ -1,0 +1,46 @@
+// ota_temp_dht.ino
+#include <WiFi.h>
+#include "RemoteUpdater.h"
+#include "DHT.h"
+
+#define WIFI_SSID     "Odido-101F53"
+#define WIFI_PASS     "3AMVBMFXRH88LDY4"
+#define FW_VERSION    "1.1.3"
+#define VERSION_URL   "https://github.com/OrangevsWhite/Desktopai.git"
+#define BIN_URL       "https://jouwgithub.github.io/jouwrepo/firmware.bin"
+
+#define DHTPIN 4        // GPIO4 = D4
+#define DHTTYPE DHT22   // Verander naar DHT11 indien nodig
+
+DHT dht(DHTPIN, DHTTYPE);
+
+void setup() {
+  Serial.begin(115200);
+  WiFi.begin(WIFI_SSID, WIFI_PASS);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(250);
+    Serial.print(".");
+  }
+  Serial.println("\nWiFi verbonden");
+
+  RemoteUpdater::setVersion(FW_VERSION);
+  RemoteUpdater::setVersionUrl(VERSION_URL);
+  RemoteUpdater::setBinaryUrl(BIN_URL);
+  RemoteUpdater::checkAndUpdate();
+
+  dht.begin();
+}
+
+void loop() {
+  float temp = dht.readTemperature();
+  float hum  = dht.readHumidity();
+
+  if (isnan(temp) || isnan(hum)) {
+    Serial.println("Fout bij lezen van DHT sensor!");
+  } else {
+    Serial.printf("Temperatuur: %.1f°C\n", temp);
+    Serial.printf("Vochtigheid: %.1f%%\n", hum);
+  }
+
+  delay(5000); // elke 5 sec uitlezen
+}
