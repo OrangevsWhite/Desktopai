@@ -6,8 +6,8 @@
 #define WIFI_SSID     "Odido-101F53"
 #define WIFI_PASS     "3AMVBMFXRH88LDY4"
 #define FW_VERSION    "1.1.3"
-#define VERSION_URL   "https://github.com/OrangevsWhite/Desktopai.git"
-#define BIN_URL       "https://jouwgithub.github.io/jouwrepo/firmware.bin"
+#define VERSION_URL   "https://orangevswhite.github.io/Desktopai/version.txt"
+#define BIN_URL       "https://orangevswhite.github.io/Desktopai/firmware.bin"
 
 #define DHTPIN 4        // GPIO4 = D4
 #define DHTTYPE DHT22   // Verander naar DHT11 indien nodig
